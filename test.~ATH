@@ -1,0 +1,20 @@
+import bannanna B;
+BIFURCATE B[C,D];
+BIFURCATE [C,D]E;
+~ATH(B){
+    print I am a very pretty text box. dont you like me?;
+    print lucky bird;
+    E.DIE();
+}
+~ATH(C){
+    print bannanna bannanna its shaped just like a bridge!;
+    C.DIE();
+}
+
+~ATH(B){
+    print flaming tennis balls of doom!;
+    E.DIE();
+}
+print bannana is dead;
+
+THIS.DIE();

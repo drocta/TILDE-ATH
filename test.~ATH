@@ -6,8 +6,11 @@ BIFURCATE [C,D]E;
     print lucky bird;
     E.DIE();
 }
+
+print orange juice!;
+
 ~ATH(C){
-    print bannanna bannanna its shaped just like a bridge!;
+    print  its shaped just like a bridge!;
     C.DIE();
 }
 
@@ -15,6 +18,6 @@ BIFURCATE [C,D]E;
     print flaming tennis balls of doom!;
     E.DIE();
 }
-print bannana is dead;
+    print bannana is dead;0
 
 THIS.DIE();

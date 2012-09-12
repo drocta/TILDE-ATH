@@ -75,6 +75,8 @@ while(THIS.living):
                 #print "loop on "+loopVar
             else:
                 charNum=matchParens(script,charNum,'{','}')
+                print "jumped to char:"+str(charNum)+" which was"+script[charNum-1]
+                print "loopVar was "+loopVar
         else:
             print "warning/error: \""+loopVar+"\" is undefined"
     elif(script.startswith('}',charNum)):
@@ -86,7 +88,7 @@ while(THIS.living):
     elif(script.startswith('print ',charNum)):
         #print "print..."
         semicolonOffset=script[charNum:].index(';')
-        print script[charNum+6:charNum+6+semicolonOffset-1]
+        print script[charNum+6:charNum+semicolonOffset]
         charNum+=semicolonOffset#+6
     elif(script.startswith('BIFURCATE ',charNum)):
         charNum+=10

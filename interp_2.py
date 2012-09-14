@@ -6,6 +6,8 @@ Really, I thought the name was fairly self explanatory.
 """
 
 import bif
+import pdb
+
 
 def bifurcate(valueA,valueB=False):
     if(valueB):
@@ -13,25 +15,45 @@ def bifurcate(valueA,valueB=False):
     else:
         return bif.bifurcate(valueA)
 
+##def matchParens(text,start,openStr,closeStr):
+##    count=1
+##    start=start+1
+##    searchChar=text.find(openStr,start)
+##    while(count>0):
+##        nextOpen=text.find(openStr,searchChar)
+##        nextClose=text.find(closeStr,searchChar)
+##        if(nextClose==-1):
+##            return searchChar
+##        if(nextOpen==-1):
+##            nextOpen=nextClose+1
+##        if(nextClose<=nextOpen):
+##            count-=1
+##            searchChar=nextClose+1
+##            #print "close"
+##        else:#nextClose>nextOpen
+##            count+=1
+##            searchChar=nextOpen+1
+##            #print "open"+str(count)+"searchChar:"+str(searchChar)
+##    return searchChar
+
 def matchParens(text,start,openStr,closeStr):
-    count=1
-    searchChar=text.find(openStr,start)
-    while(count>0):
-        nextOpen=text.find(openStr,searchChar)
-        nextClose=text.find(closeStr,searchChar)
-        if(nextClose==-1):
-            return searchChar
-        if(nextOpen==-1):
-            nextOpen=nextClose+1
-        if(nextClose<=nextOpen):
-            count-=1
-            searchChar=nextClose+1
-            #print "close"
-        else:#nextClose>nextOpen
-            count+=1
-            searchChar=nextOpen+1
-            #print "open"+str(count)+"searchChar:"+str(searchChar)
-    return searchChar
+    count=0
+    charNum=start
+    firstChar=True
+    while(count>0 or firstChar):
+        if(charNum>=len(text)):
+            #print "err:could not find match!"
+            return -1
+        elif(text[charNum]==closeStr):
+            count=count-1
+            #print "close at "+str(charNum)
+        elif(text[charNum]==openStr):
+            count=count+1
+            #print "open at "+str(charNum)
+            if(firstChar):
+                firstChar=False
+        charNum=charNum+1
+    return charNum-1
 
 def textToNextSemicolon(text,start=0):
     semicolonOffset=text.find(';',start)
@@ -68,15 +90,17 @@ while(THIS.living):
         closeparenOffset=script[charNum:].index(')')
         loopVar=script[charNum+5:charNum+closeparenOffset]
         loopVar=loopVar.strip(' \t\n\r')
+        print "reached ~ATH command, loopVar is "+loopVar
         if(loopVar in ATHVars):
             if(ATHVars[loopVar].living):
                 execStack.append((charNum,'{'))
                 charNum+=closeparenOffset
-                #print "loop on "+loopVar
+                print "loop on "+loopVar
             else:
-                charNum=matchParens(script,charNum,'{','}')
-                print "jumped to char:"+str(charNum)+" which was"+script[charNum-1]
-                print "loopVar was "+loopVar
+                #print "parenmatch jump from "+str(charNum)
+                charNum=matchParens(script,charNum,'{','}')+2
+                #print "parenmatch jumped to char:"+str(charNum)+" which was"+script[charNum]
+                #print "loopVar was "+loopVar
         else:
             print "warning/error: \""+loopVar+"\" is undefined"
     elif(script.startswith('}',charNum)):
@@ -121,6 +145,9 @@ while(THIS.living):
          ATHVars[varname].DIE()
          charNum=script.find(';',charNum)
          #print varname+"killed"
+    elif(script.startswith('DEBUG',charNum)):
+        pdb.set_trace()
+        charNum+=5
     else:
          charNum+=1
          if(charNum > len(script)):

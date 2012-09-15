@@ -15,11 +15,11 @@ BIFURCATE [Z,N]N;
 
 
 BIFURCATE N[Z,N];
-DEBUG;
 ~ATH(Z){
     BIFURCATE N[D,N];
+    DE0BUG;
     D.DIE();
-    PRINT APPLE;
-    PRINT ORANGE;
+    print APPLE;
+    print ORANGE;
 }
 THIS.DIE();

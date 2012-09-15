@@ -6,6 +6,7 @@ Really, I thought the name was fairly self explanatory.
 """
 
 import bif
+import re
 import pdb
 
 
@@ -90,12 +91,12 @@ while(THIS.living):
         closeparenOffset=script[charNum:].index(')')
         loopVar=script[charNum+5:charNum+closeparenOffset]
         loopVar=loopVar.strip(' \t\n\r')
-        print "reached ~ATH command, loopVar is "+loopVar
+        #print "reached ~ATH command, loopVar is "+loopVar
         if(loopVar in ATHVars):
             if(ATHVars[loopVar].living):
                 execStack.append((charNum,'{'))
                 charNum+=closeparenOffset
-                print "loop on "+loopVar
+                #print "loop on "+loopVar
             else:
                 #print "parenmatch jump from "+str(charNum)
                 charNum=matchParens(script,charNum,'{','}')+2
@@ -137,14 +138,16 @@ while(THIS.living):
                 leftHalf=script[charNum+openSquareOffset+1:charNum+commaOffset]
                 rightHalf=script[charNum+commaOffset+1:charNum+closeSquareOffset]
                 (ATHVars[leftHalf],ATHVars[rightHalf])=bifurcate(ATHVars[toSplitName])
-    elif(".DIE()" in textToNextSemicolon(script,charNum)):#script[charNum:script[charNum:].find(';')].endswith('.DIE()')):
-         varname=textToNextSemicolon(script,charNum)#script[charNum:script[charNum:].find(';')]
-         varname=varname[:-6]
-         varname=varname.split(' ')[-1]
-         varname=varname.split('\n')[-1]
-         ATHVars[varname].DIE()
-         charNum=script.find(';',charNum)
-         #print varname+"killed"
+    elif(re.match(r'([a-zA-Z]+)\.DIE\(\);',script[charNum:])!=None):#script[charNum:script[charNum:].find(';')].endswith('.DIE()')):
+        varname=re.match(r'([a-zA-Z]+)\.DIE\(\);',script[charNum:]).group(1)
+        #print "found .DIE(); statement! Variable name is "+varname
+##        varname=textToNextSemicolon(script,charNum)#script[charNum:script[charNum:].find(';')]
+##        varname=varname[:-6]
+##        varname=varname.split(' ')[-1]
+##        varname=varname.split('\n')[-1]
+        ATHVars[varname].DIE()
+        charNum=script.find(';',charNum)
+        #print varname+"killed"
     elif(script.startswith('DEBUG',charNum)):
         pdb.set_trace()
         charNum+=5

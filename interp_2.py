@@ -87,6 +87,9 @@ while(THIS.living):
         importStatementList=importStatementStr.split(' ')
         if(importStatementList[-1] not in ATHVars):
             ATHVars[importStatementList[-1]]=bif.value_obj()
+        if(importStatementList[1]=='STDIN'):
+            print('importing STDIN')
+            ATHVars[importStatementList[-1]].special='STDIN'
         charNum+=semicolonOffset
     elif(script.startswith('~ATH(',charNum)):
         closeparenOffset=script[charNum:].index(')')

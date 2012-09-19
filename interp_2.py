@@ -3,6 +3,7 @@ python drocta ~ATH interpreter
 It interprets things written in drocta ~ATH
 and is written in python.
 Really, I thought the name was fairly self explanatory.
+Build number:7
 """
 
 import bif
@@ -103,17 +104,17 @@ while(THIS.living):
                 #print "parenmatch jumped to char:"+str(charNum)+" which was"+script[charNum]
                 #print "loopVar was "+loopVar
         else:
-            print "warning/error: \""+loopVar+"\" is undefined"
+            print('warning/error: \"{0}\" is undefined'.format(loopVar))
     elif(script.startswith('}',charNum)):
         openingTuple=execStack.pop()
         if(openingTuple[1]=='{'):
             charNum=openingTuple[0]
         else:
-            print "what are you trying to do? \"(...}\" error"
+            print('what are you trying to do? \"(...}\" error')
     elif(script.startswith('print ',charNum)):
         #print "print..."
         semicolonOffset=script[charNum:].index(';')
-        print script[charNum+6:charNum+semicolonOffset]
+        print(script[charNum+6:charNum+semicolonOffset])
         charNum+=semicolonOffset#+6
     elif(script.startswith('BIFURCATE ',charNum)):
         charNum+=10
@@ -124,7 +125,7 @@ while(THIS.living):
         syntacticallyCorrect=True
         for offset in [openSquareOffset,closeSquareOffset,commaOffset]:
             if((offset==-1) or (offset>semicolonOffset)):
-                print "Bifurcate command malformed, char:"+str(charNum)
+                print("Bifurcate command malformed, char:"+str(charNum))
                 syntacticallyCorrect=False
                 break
         if(syntacticallyCorrect):

@@ -157,7 +157,7 @@ while(THIS.living):
          if(charNum > len(script)):
              THIS.DIE()
     #print script[charNum]
-             
+raw_input("press enter to close")             
          
          
         

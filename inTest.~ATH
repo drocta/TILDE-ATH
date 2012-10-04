@@ -1,0 +1,11 @@
+print input text:;
+INPUT A;
+print The text you entered had length equal to 0;
+BIFURCATE A[D,A2];
+BIFURCATE [D,A2]A2;
+~ATH(A2){
+    print +1;
+    BIFURCATE A2[D,A2];
+}
+THIS.DIE();
+print yeah;

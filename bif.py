@@ -46,4 +46,6 @@ def unbifurcate(valueA,valueB):
         if(value in valueB.formsRightOf):
             return value
     combined=value_obj((valueA,valueB))
+    valueA.formsLeftOf.append(combined)
+    valueB.formsRightOf.append(combined)
     return combined

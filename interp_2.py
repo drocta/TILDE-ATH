@@ -61,9 +61,28 @@ def textToNextSemicolon(text,start=0):
     semicolonOffset=text.find(';',start)
     return text[start:semicolonOffset]
 
+charObjs={}
+def getCharObj(theChar):
+    if(theChar in charObjs):
+        return charObjs[theChar]
+    else:
+        theCharObj=bif.value_obj()
+        charObjs[theChar]=theCharObj
+        return theCharObj
+def getStrObj(theStr):
+    if(len(theStr)==0):
+        return NULL_obj
+    else:
+        return bifurcate(getCharObj(theStr[0]),getStrObj(theStr[1:]))
+
+
+
 ATHVars={}
 THIS=bif.value_obj()
 ATHVars['THIS']=THIS
+NULL_obj=bif.value_obj()
+NULL_obj.DIE()
+ATHVars['NULL']=NULL_obj
 filename=raw_input()
 filelink=open(filename,'r')
 script=filelink.read(-1)
@@ -116,6 +135,12 @@ while(THIS.living):
         semicolonOffset=script[charNum:].index(';')
         print(script[charNum+6:charNum+semicolonOffset])
         charNum+=semicolonOffset#+6
+    elif(script.startswith('INPUT',charNum)):
+        semicolonOffset=script[charNum:].index(';')
+        varname=script[charNum+6:charNum+semicolonOffset]
+        print 'INPUT varname was "'+varname+'"'
+        ATHVars[varname]=getStrObj(raw_input(':'))
+        charNum+=semicolonOffset
     elif(script.startswith('BIFURCATE ',charNum)):
         charNum+=10
         semicolonOffset=script[charNum:].index(';')

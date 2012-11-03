@@ -138,7 +138,7 @@ while(THIS.living):
     elif(script.startswith('INPUT',charNum)):
         semicolonOffset=script[charNum:].index(';')
         varname=script[charNum+6:charNum+semicolonOffset]
-        print 'INPUT varname was "'+varname+'"'
+        #print 'INPUT varname was "'+varname+'"'
         ATHVars[varname]=getStrObj(raw_input(':'))
         charNum+=semicolonOffset
     elif(script.startswith('BIFURCATE ',charNum)):

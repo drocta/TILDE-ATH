@@ -4,7 +4,7 @@ BIFURCATE [C,D]E;
 ~ATH(B){
     print I am a very pretty text box. dont you like me?;
     print lucky bird;
-    E.DIE();
+    E.DIE(THIS);
 }
 
 print orange juice!;
@@ -18,6 +18,5 @@ print orange juice!;
     print flaming tennis balls of doom!;
     E.DIE();
 }
-    print bannana is dead;0
-
+    print bannana is dead;
 THIS.DIE();

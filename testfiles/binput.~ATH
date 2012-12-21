@@ -1,0 +1,39 @@
+import blah BLAH;
+print please enter whatever character you will be using for binary zero.;
+INPUT ZEROCHAR;
+BIFURCATE ZEROCHAR[ZEROCHAR,JUNK];
+import chrcmp CMP0;
+BIFURCATE [CMP0,ZEROCHAR]D;
+D.DIE();
+print please enter whatever character you will be using for binary one.;
+INPUT ONECHAR;
+BIFURCATE ONECHAR[ONECHAR,JUNK];
+import chrcmp CMP1;
+BIFURCATE [CMP1,ONECHAR]D;
+D.DIE();
+BIFURCATE [NULL,NULL]2NULL;
+BIFURCATE 2NULL[OUTNUM,JUNK];
+print please input the binary number you want.(it will be converted to unary);
+INPUT BINNUM;
+~ATH(BINNUM){
+BIFURCATE [OUTNUM,OUTNUM]G;
+BIFURCATE G[NCOPY,OUTNUM];
+~ATH(NCOPY){
+BIFURCATE NCOPY[JUNK,NCOPY];
+BIFURCATE [BLAH,OUTNUM]OUTNUM;
+} 
+BIFURCATE BINNUM[CHAR,BINNUM];
+BIFURCATE [CMP0,CHAR]NEQ0;
+~ATH(NEQ0){
+BIFURCATE [BLAH,OUTNUM]OUTNUM;
+BIFURCATE 2NULL[NEQ0,JUNK];
+}
+}
+print ok, going to print it out in unary, with each digit on one line. If the number you entered was large you might want to close the program instead of hitting enter.;
+INPUT JUNK;
+BIFURCATE [OUTNUM,OUTNUM]GOUTNUM;
+BIFURCATE GOUTNUM[OUTNUMCOPY,JUNK];
+~ATH(OUTNUMCOPY){
+BIFURCATE OUTNUMCOPY[JUNK,OUTNUMCOPY];
+print 1;
+}

@@ -1,6 +1,8 @@
 print number to halve?:;
 INPUT NUM;
 import blah BLAH;
+//print this shouldn't print
+/* print this shouldnt print either */
 BIFURCATE [NULL,NULL]2NULL;
 BIFURCATE [NUM,NUM]2NUM;
 BIFURCATE 2NUM[NUMCPY,JUNK];

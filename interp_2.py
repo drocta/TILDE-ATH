@@ -155,7 +155,14 @@ def evalScript(script,inObj):
             ATHVars[varname].DIE()
             charNum=script.find(';',charNum)
             #print varname+"killed"
-        elif(script.startswith('DEBUG',charNum)):
+        elif(script.startswith('//',charNum)):
+            nextNewlinePos=script.find('\n',charNum)
+            if '\r' in script[charNum:nextNewlinePos]:
+                nextNewlinePos=script.find('\r',charNum)
+            charNum=nextNewlinePos
+        elif(script.startswith('/*',charNum)):
+            charNum=script.find('*/',charNum)
+        elif(script.startswith('PYDEBUG',charNum)):
             pdb.set_trace()
             charNum+=5
         else:

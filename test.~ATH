@@ -8,7 +8,7 @@ BIFURCATE [C,D]E;
 }
 
 print orange juice!;
-
+HELLO [E,B]C;
 ~ATH(C){
     print its shaped just like a bridge!;
     C.DIE();

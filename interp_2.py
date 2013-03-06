@@ -3,7 +3,7 @@ python drocta ~ATH interpreter
 It interprets things written in drocta ~ATH
 and is written in python.
 Really, I thought the name was fairly self explanatory.
-Build number:8
+Build number:9
 """
 
 import bif
@@ -54,6 +54,12 @@ def getStrObj(theStr):
         return NULL_obj
     else:
         return bifurcate(getCharObj(theStr[0]),getStrObj(theStr[1:]))
+
+funCodes={}
+funCodes['HELLO']="""
+print "Hello World.";"
+THIS.DIE(THIS);"""
+
 
 NULL_obj=bif.value_obj()
 NULL_obj.DIE()
@@ -165,6 +171,25 @@ def evalScript(script,inObj):
         elif(script.startswith('PYDEBUG',charNum)):
             pdb.set_trace()
             charNum+=5
+        elif(re.match(r'([A-Z0-9_]+) \[([^\[\];]*),([^\[\];]*)\]([^\[\];]*);',script[charNum:])!=None):
+            try:
+                matches=re.match(r'([A-Z0-9_]+) \[([^\[\];]*),([^\[\];]*)\]([^\[\];]*);',script[charNum:])
+                funName=matches.group(1)
+                print "the function called '"+funName + "' was called."
+                print "yeah it works."
+                if funName in funCodes:
+                    theFuncCode=funCodes[funName]
+                    sentInObject=bifurcate(ATHVars[matches.group(2)],ATHVars[matches.group(3)])
+                    ATHVars[matches.group(4)]=evalScript(theFuncCode,sentInObject)
+                else:
+                    print "error: function called '"+funName+"' not recognized"
+                charNum+=len(funName)
+            except:
+                print "function not recognized/ a bug in the interpreter"
+                print re.match(r'([A-Z0-9_]+) \[([^\[\];]*),([^\[\];]*)\]([^\[\];]*);',script[charNum:])
+                print "..."
+                charNum+=1
+            #charNum+=1
         else:
              charNum+=1
              if(charNum > len(script)):

@@ -1,0 +1,9 @@
+/* trivial copy function, "by" drocta*/
+BIFURCATE [ARGS,ARGS]2ARGS;
+THIS.DIE(2ARGS);
+/*wow that is a short function! if it werent for the fact that it was for copying a variable one might thing that this was a consice language.
+how do I spell concise?
+oh. Yeah that looks right.
+Concise.
+con-ciiiise
+concise.*/

@@ -1,0 +1,14 @@
+import blah BLAH;
+print input first number;
+INPUT A;
+print input second number;
+INPUT B;
+ADD [A,B]C;
+BIFURCATE [BLAH,C]CTEMP;
+BIFURCATE CTEMP[JUNK,CTEMP];
+~ATH(CTEMP){
+BIFURCATE CTEMP[JUNK,CTEMP];
+print 1;
+}
+print DONE!;
+print yay;

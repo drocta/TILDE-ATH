@@ -1,6 +1,7 @@
 import bannanna B;
 BIFURCATE B[C,D];
 BIFURCATE [C,D]E;
+importf stndrd~ATH/FASTuADD.~ATH as ADD;
 ~ATH(B){
     print I am a very pretty text box. dont you like me?;
     print lucky bird;
@@ -19,4 +20,12 @@ HELLO [E,B]C;
     E.DIE();
 }
     print bannana is dead;
+print input str1;
+INPUT STR1;
+print hey hey testing PRINT2 now;
+PRINT2 STR1;
+pritn iput str2;
+INPUT STR2;
+ADD [STR1,STR2]STR3;
+PRINT2 STR3;
 THIS.DIE();

@@ -1,0 +1,25 @@
+/* "fast" addition algorithm, by drocta
+WARNING: if you don't pass in unary stack numberss, it will infinite loop. Don't not read the source.
+algorithm will run faster if you pass the smaller number in first.*/
+BIFURCATE [ARGS,ARGS]2ARGS;
+BIFURCATE 2ARGS[HASARGS,BLAHB];
+BIFURCATE [NULL,NULL]2NULL;
+BIFURCATE [THIS,THIS]2THIS;
+BIFURCATE 2THIS[NOARGS,BLAHB];
+~ATH(HASARGS){
+    BIFURCATE 2NULL[HASARGS,NOARGS];
+    BIFURCATE ARGS[NUM1,NUM2];
+    ~ATH(NUM1){
+        BIFURCATE NUM1[BLAHA,NUM1];
+        BIFURCATE [BLAHA,NUM2]NUM2; /* BLAHAHAHAHAH*/
+    }
+}
+~ATH(NOARGS){
+    print this sub-program is supposed to be run with an argument that is not false. How about trying that?;
+    BIFURCATE 2NULL[NOARGS,NUM2];/* BLAHBHBHBHBHB */
+}
+THIS.DIE(NUM2);
+
+/*
+HINT:Try adding NULL terminated strings! (what other kinds of strings are there? maybe you made some up? )
+*/

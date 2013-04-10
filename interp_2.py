@@ -3,7 +3,10 @@ python drocta ~ATH interpreter
 It interprets things written in drocta ~ATH
 and is written in python.
 Really, I thought the name was fairly self explanatory.
-Build number:9
+Build number:10
+(note:build number might not be accurate, sometimes I forget to increment it.
+But I dont decrement it so its still maybe somewhat useful.
+or you could just check the github versions. w/e.)
 """
 
 import bif
@@ -55,10 +58,51 @@ def getStrObj(theStr):
     else:
         return bifurcate(getCharObj(theStr[0]),getStrObj(theStr[1:]))
 
+def getObjStr(theObj):
+    outStr=""
+    theObj2=theObj
+    while(theObj2.living):
+        (leftObj,rightObj)=bifurcate(theObj2)
+        for char in charObjs:
+            if(charObjs[char]==leftObj):
+                outStr+=char
+                break
+        theObj2=rightObj
+    return outStr
+
+
 funCodes={}
 funCodes['HELLO']="""
 print "Hello World.";"
 THIS.DIE(THIS);"""
+funCodes["ADD"]="""
+import bluh BLAH;
+BIFURCATE ARGS[A,B];
+BIFURCATE [BLAH,A]ATEMP;
+BIFURCATE [BLAH,B]BTEMP;
+BIFURCATE ATEMP[JUNK,ATEMP];
+BIFURCATE BTEMP[JUNK,BTEMP];
+BIFURCATE [BLAH,NULL]C;
+BIFURCATE C[JUNK,C];
+~ATH(ATEMP){
+BIFURCATE ATEMP[JUNK,ATEMP];
+BIFURCATE [BLAH,C]C;
+}
+~ATH(BTEMP){
+BIFURCATE BTEMP[JUNK,BTEMP];
+BIFURCATE [BLAH,C]C;
+}
+/*
+BIFURCATE [BLAH,C]CTEMP;
+BIFURCATE CTEMP[JUNK,CTEMP];
+~ATH(CTEMP){
+BIFURCATE CTEMP[JUNK,CTEMP];
+print some text;
+}
+print DONE!;
+*/
+THIS.DIE(C);
+"""#NOTE:use a better addition algorithm.
 
 
 NULL_obj=bif.value_obj()
@@ -84,6 +128,18 @@ def evalScript(script,inObj):
             if(importStatementList[-1] not in ATHVars):
                 ATHVars[importStatementList[-1]]=bif.value_obj()
             charNum+=semicolonOffset
+        elif(re.match(r'importf ([^; ]+) as ([^; ]+);',script[charNum:])!=None):
+            matches=re.match(r'importf ([^; ]+) as ([^; ]+);',script[charNum:])
+            importfFilename=matches.group(1)
+            #print "the filename is "+importfFilename
+            try:
+                importfFilelink=open(importfFilename,'r')
+                newFunc=importfFilelink.read(-1)
+                #print newFunc
+                funCodes[matches.group(2)]=newFunc
+            except:
+                print "could not read file "+importfFilename
+            charNum=script.find(';',charNum)   
         elif(script.startswith('~ATH(',charNum)):
             closeparenOffset=script[charNum:].index(')')
             loopVar=script[charNum+5:charNum+closeparenOffset]
@@ -112,6 +168,10 @@ def evalScript(script,inObj):
             semicolonOffset=script[charNum:].index(';')
             print(script[charNum+6:charNum+semicolonOffset])
             charNum+=semicolonOffset#+6
+        elif(re.match(r'PRINT2 ([^\[\];]*);',script[charNum:])!=None):
+            matches=re.match(r'PRINT2 ([^\[\];]*);',script[charNum:])
+            print getObjStr(ATHVars[matches.group(1)])
+            charNum=script.find(';',charNum)
         elif(script.startswith('INPUT',charNum)):
             semicolonOffset=script[charNum:].index(';')
             varname=script[charNum+6:charNum+semicolonOffset]
@@ -150,8 +210,8 @@ def evalScript(script,inObj):
                     leftHalf=script[charNum+openSquareOffset+1:charNum+commaOffset]
                     rightHalf=script[charNum+commaOffset+1:charNum+closeSquareOffset]
                     (ATHVars[leftHalf],ATHVars[rightHalf])=bifurcate(ATHVars[toSplitName])
-        elif(re.match(r'([a-zA-Z]+)\.DIE\(([a-zA-Z]*)\);',script[charNum:])!=None):#script[charNum:script[charNum:].find(';')].endswith('.DIE()')):
-            matches=re.match(r'([a-zA-Z]+)\.DIE\(([a-zA-Z]*)\);',script[charNum:])#.group(1)
+        elif(re.match(r'([0-9a-zA-Z]+)\.DIE\(([0-9a-zA-Z]*)\);',script[charNum:])!=None):#script[charNum:script[charNum:].find(';')].endswith('.DIE()')):
+            matches=re.match(r'([0-9a-zA-Z]+)\.DIE\(([0-9a-zA-Z]*)\);',script[charNum:])#.group(1)
             varname=matches.group(1)
             argvarname=matches.group(2)
             if argvarname:
@@ -175,8 +235,8 @@ def evalScript(script,inObj):
             try:
                 matches=re.match(r'([A-Z0-9_]+) \[([^\[\];]*),([^\[\];]*)\]([^\[\];]*);',script[charNum:])
                 funName=matches.group(1)
-                print "the function called '"+funName + "' was called."
-                print "yeah it works."
+                #print "the function called '"+funName + "' was called."
+                #print "yeah it works."
                 if funName in funCodes:
                     theFuncCode=funCodes[funName]
                     sentInObject=bifurcate(ATHVars[matches.group(2)],ATHVars[matches.group(3)])
@@ -186,10 +246,28 @@ def evalScript(script,inObj):
                 charNum+=len(funName)
             except:
                 print "function not recognized/ a bug in the interpreter"
-                print re.match(r'([A-Z0-9_]+) \[([^\[\];]*),([^\[\];]*)\]([^\[\];]*);',script[charNum:])
+                print matches#re.match(r'([A-Z0-9_]+) \[([^\[\];]*),([^\[\];]*)\]([^\[\];]*);',script[charNum:])
                 print "..."
                 charNum+=1
             #charNum+=1
+        elif(re.match(r'([A-Z0-9_]+) ([^\[\];]*)\[([^\[\];]*),([^\[\];]*)\];',script[charNum:])!=None):
+            try:
+                matches=re.match(r'([A-Z0-9_]+) ([^\[\];]*)\[([^\[\];]*),([^\[\];]*)\];',script[charNum:])
+                funName=matches.group(1)
+                #print "the function called '"+funName + "' was called."
+                #print "yeah it works."
+                if funName in funCodes:
+                    theFuncCode=funCodes[funName]
+                    sentInObject=ATHVars[matches.group(2)]#bifurcate(ATHVars[matches.group(2)],ATHVars[matches.group(3)])
+                    ATHVars[matches.group(3)],ATHVars[matches.group(4)]=bifurcate(evalScript(theFuncCode,sentInObject))
+                else:
+                    print "error: function called '"+funName+"' not recognized"
+                charNum+=len(funName)
+            except:
+                print "function not recognized/ a bug in the interpreter"
+                print matches#re.match(r'([A-Z0-9_]+) \[([^\[\];]*),([^\[\];]*)\]([^\[\];]*);',script[charNum:])
+                print "..."
+                charNum+=1
         else:
              charNum+=1
              if(charNum > len(script)):
